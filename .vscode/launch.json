@@ -1,0 +1,96 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "BalanceEnquriy",
+            "request": "launch",
+            "mainClass": "BalanceEnquriy",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Deposit",
+            "request": "launch",
+            "mainClass": "Deposit",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "FastCash",
+            "request": "launch",
+            "mainClass": "FastCash",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Login",
+            "request": "launch",
+            "mainClass": "Login",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Mini",
+            "request": "launch",
+            "mainClass": "Mini",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Pin",
+            "request": "launch",
+            "mainClass": "Pin",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Signup",
+            "request": "launch",
+            "mainClass": "Signup",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Signup2",
+            "request": "launch",
+            "mainClass": "Signup2",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Signup3",
+            "request": "launch",
+            "mainClass": "Signup3",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Launch Signup3",
+            "request": "launch",
+            "mainClass": "Signup3",  // Make sure to use the correct class name here
+            "args": ["1234"],  // Provide the form number as an argument here
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
+            "name": "Withdrawal",
+            "request": "launch",
+            "mainClass": "Withdrawal",
+            "projectName": "Bank Management System_2ae31b62"
+        }
+    ]
+}
