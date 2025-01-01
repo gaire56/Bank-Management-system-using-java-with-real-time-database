@@ -2,10 +2,9 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class Deposit {
+    private final String pin;
 
-    private String pin;
-
-    Deposit(String pin) {
+    public Deposit(String pin) {
         this.pin = pin;
         processDeposit();
     }
@@ -13,40 +12,55 @@ public class Deposit {
     private void processDeposit() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter the amount you want to deposit: ");
-        String amount = scanner.nextLine();
+        while (true) {
+            System.out.println("=====================================");
+            System.out.println("          DEPOSIT MENU               ");
+            System.out.println("=====================================");
+            System.out.println("1. Deposit Amount");
+            System.out.println("2. Back to Main Menu");
+            System.out.println("Enter your choice (1-2): ");
 
-        if (amount.isEmpty()) {
-            System.out.println("Please enter a valid amount to deposit.");
-        } else {
-            try {
-                Date date = new Date();
-                Connn c = new Connn();
-                ((Object) c.getStatement()).executeUpdate("INSERT INTO bank VALUES('" + pin + "', '" + date + "', 'Deposit', '" + amount + "')");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
-                System.out.println("Rs. " + amount + " deposited successfully.");
-            } catch (Exception e) {
-                e.printStackTrace();
+            switch (choice) {
+                case 1 -> depositAmount(scanner);
+                case 2 -> {
+                    System.out.println("Returning to Main Menu...");
+                    new Main(pin); // Assuming `Main` is your main menu class
+                    return;
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         }
-
-        showBackOption();
     }
 
-    private void showBackOption() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("\nPress 1 to go back to the main menu.");
-        int choice = scanner.nextInt();
+    private void depositAmount(Scanner scanner) {
+        System.out.println("Enter the amount you want to deposit: ");
+        String amount = scanner.nextLine();
 
-        if (choice == 1) {
-            new Main(pin);
-        } else {
-            System.out.println("Invalid choice. Returning to the main menu.");
-            new Main(pin);
+        if (amount.isEmpty() || !amount.matches("\\d+")) {
+            System.out.println("Invalid input. Please enter a valid numeric amount.");
+            return;
+        }
+
+        try {
+            Connn connn = new Connn();
+            Date date = new Date();
+            String query = "INSERT INTO bank VALUES('" + pin + "', '" + date + "', 'Deposit', '" + amount + "')";
+            connn.statement.executeUpdate(query);
+            System.out.println("Rs. " + amount + " deposited successfully!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred. Please try again.");
         }
     }
 
     public static void main(String[] args) {
-        new Deposit("");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter your PIN: ");
+        String pin = scanner.nextLine();
+
+        new Deposit(pin);
     }
 }

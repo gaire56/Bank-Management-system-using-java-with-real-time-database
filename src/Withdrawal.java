@@ -15,7 +15,7 @@ public class Withdrawal {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("========================================");
-        System.out.println("         ATM WITHDRAWAL SYSTEM          ");
+        System.out.println("         WITHDRAWAL SYSTEM          ");
         System.out.println("========================================");
         System.out.println("Maximum Withdrawal Amount: Rs. 10,000");
         System.out.print("Please enter the amount you want to withdraw: ");
@@ -58,7 +58,7 @@ public class Withdrawal {
 
             Date date = new Date();
             conn.statement.executeUpdate(
-                "INSERT INTO bank VALUES('" + pin + "', '" + date + "', 'Withdrawal', '" + withdrawalAmount + "')");
+                    "INSERT INTO bank VALUES('" + pin + "', '" + date + "', 'Withdrawal', '" + withdrawalAmount + "')");
 
             System.out.println("Success: Rs. " + withdrawalAmount + " debited successfully.");
 

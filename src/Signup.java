@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Random;
 
 public class Signup {
-    public static void main(String[] args) {
+    public Signup() {
         Scanner scanner = new Scanner(System.in);
         Random ran = new Random();
         long first4 = (ran.nextLong() % 9000L) + 1000L;
@@ -66,7 +66,8 @@ public class Signup {
                     "', '" + pincode + "', '" + state + "')";
             c.statement.executeUpdate(query);
             System.out.println("Your details have been successfully submitted. Proceeding to the next step...");
-            new Signup2(formno); // Replace this with CLI version of Signup2 when available
+            // After submission, you can proceed to a second signup step or welcome message
+            new Signup2(formno);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("An error occurred while saving your details. Please try again.");

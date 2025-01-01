@@ -1,103 +1,121 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.Random;
 
 public class Signup3 {
+    private final String formno;
 
-    private final String formNo;
-
-    public Signup3(String formNo) {
-        this.formNo = formNo;
+    public Signup3(String formno) {
+        this.formno = formno;
     }
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Page 3: Account Details");
-        System.out.println("========================");
+        System.out.println("=====================================");
+        System.out.println("            Account Details          ");
+        System.out.println("=====================================");
 
+        // Account Type Selection
+        String accountType = getAccountType(scanner);
+
+        // Generate Card Number and PIN
+        Random random = new Random();
+        long first7 = (random.nextLong() % 90000000L) + 1409963000000000L;
+        String cardNumber = String.valueOf(Math.abs(first7));
+
+        long first3 = (random.nextLong() % 9000L) + 1000L;
+        String pin = String.valueOf(Math.abs(first3));
+
+        // Services Required
+        String facilities = getFacilities(scanner);
+
+        // Confirm and Save Details
+        if (accountType.isEmpty() || facilities.isEmpty()) {
+            System.out.println("Error: Please fill in all the fields.");
+            return;
+        }
+
+        try {
+            Connn c1 = new Connn();
+            String query1 = "INSERT INTO signupthree VALUES('" + formno + "', '" + accountType + "', '" + cardNumber
+                    + "', '" + pin + "', '" + facilities + "')";
+            String query2 = "INSERT INTO login VALUES('" + formno + "', '" + cardNumber + "', '" + pin + "')";
+            c1.statement.executeUpdate(query1);
+            c1.statement.executeUpdate(query2);
+
+            System.out.println("=====================================");
+            System.out.println("  Account Created Successfully!      ");
+            System.out.println("  Card Number: " + cardNumber);
+            System.out.println("  PIN: " + pin);
+            System.out.println("=====================================");
+
+            // Proceed to Deposit
+            new Deposit(pin); // Assuming Deposit is another CLI class
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("An error occurred. Please try again.");
+        }
+
+        scanner.close();
+    }
+
+    private String getAccountType(Scanner scanner) {
         System.out.println("Select Account Type:");
         System.out.println("1. Saving Account");
         System.out.println("2. Fixed Deposit Account");
         System.out.println("3. Current Account");
         System.out.println("4. Recurring Deposit Account");
-        System.out.print("Enter your choice (1-4): ");
-        int accountChoice = scanner.nextInt();
+        System.out.print("Enter choice (1-4): ");
+
+        int choice = scanner.nextInt();
         scanner.nextLine(); // Consume newline
 
-        String accountType;
-        switch (accountChoice) {
-            case 1 -> accountType = "Saving Account";
-            case 2 -> accountType = "Fixed Deposit Account";
-            case 3 -> accountType = "Current Account";
-            case 4 -> accountType = "Recurring Deposit Account";
+        return switch (choice) {
+            case 1 -> "Saving Account";
+            case 2 -> "Fixed Deposit Account";
+            case 3 -> "Current Account";
+            case 4 -> "Recurring Deposit Account";
             default -> {
-                System.out.println("Invalid choice. Please restart the process.");
-                return;
+                System.out.println("Invalid choice. Please try again.");
+                yield getAccountType(scanner);
             }
-        }
+        };
+    }
 
-        Random random = new Random();
-        String cardNumber = String.format("%016d", Math.abs(random.nextLong() % 1_000_000_000_000_000L));
-        String pin = String.format("%04d", random.nextInt(10_000));
-
-        System.out.println("Generated Card Number: " + cardNumber);
-        System.out.println("Generated PIN: " + pin);
-
-        System.out.println("Select Services Required:");
+    private String getFacilities(Scanner scanner) {
+        System.out.println("Select Services Required (comma-separated choices):");
         System.out.println("1. ATM CARD");
         System.out.println("2. Internet Banking");
         System.out.println("3. Mobile Banking");
         System.out.println("4. EMAIL Alerts");
         System.out.println("5. Cheque Book");
         System.out.println("6. E-Statement");
-        System.out.print("Enter your choices (comma-separated): ");
-        String[] servicesInput = scanner.nextLine().split(",");
+        System.out.print("Enter choices (e.g., 1,3,5): ");
 
-        StringBuilder services = new StringBuilder();
-        for (String service : servicesInput) {
-            switch (service.trim()) {
-                case "1" -> services.append("ATM CARD ");
-                case "2" -> services.append("Internet Banking ");
-                case "3" -> services.append("Mobile Banking ");
-                case "4" -> services.append("EMAIL Alerts ");
-                case "5" -> services.append("Cheque Book ");
-                case "6" -> services.append("E-Statement ");
-                default -> System.out.println("Invalid service option: " + service);
+        String[] choices = scanner.nextLine().split(",");
+        StringBuilder facilities = new StringBuilder();
+
+        for (String choice : choices) {
+            switch (choice.trim()) {
+                case "1" -> facilities.append("ATM CARD ");
+                case "2" -> facilities.append("Internet Banking ");
+                case "3" -> facilities.append("Mobile Banking ");
+                case "4" -> facilities.append("EMAIL Alerts ");
+                case "5" -> facilities.append("Cheque Book ");
+                case "6" -> facilities.append("E-Statement ");
+                default -> System.out.println("Invalid choice: " + choice + ". Skipping.");
             }
         }
 
-        System.out.println("Form No: " + formNo);
-        System.out.println("Account Type: " + accountType);
-        System.out.println("Services Selected: " + services);
-
-        System.out.println("Confirm submission? (yes/no): ");
-        String confirmation = scanner.nextLine();
-
-        if (confirmation.equalsIgnoreCase("yes")) {
-            try {
-                Connn connection = new Connn();
-                String query1 = "INSERT INTO signupthree VALUES ('" + formNo + "', '" + accountType + "', '"
-                        + cardNumber + "', '" + pin + "', '" + services + "')";
-                String query2 = "INSERT INTO login VALUES ('" + formNo + "', '" + cardNumber + "', '" + pin + "')";
-                connection.statement.executeUpdate(query1);
-                connection.statement.executeUpdate(query2);
-                System.out.println("Submission Successful!\nCard Number: " + cardNumber + "\nPIN: " + pin);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("Submission canceled.");
-        }
-
-        scanner.close();
+        return facilities.toString().trim();
     }
 
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.out.println("Please provide the form number as an argument.");
-            return;
-        }
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter Form Number: ");
+        String formno = scanner.nextLine();
 
-        Signup3 signup3 = new Signup3(args[0]);
+        Signup3 signup3 = new Signup3(formno);
         signup3.start();
     }
 }

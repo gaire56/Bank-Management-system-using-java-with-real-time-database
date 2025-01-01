@@ -11,7 +11,9 @@ public class Signup2 {
     private void collectDetails() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("--- Page 2: Additional Details ---");
+        System.out.println("=====================================");
+        System.out.println("     Page 2: Additional Details      ");
+        System.out.println("=====================================");
 
         // Get Religion
         String religion = getReligion(scanner);
@@ -37,23 +39,31 @@ public class Signup2 {
         System.out.println("Existing Account (Yes/No):");
         String existingAccount = scanner.nextLine();
 
+        // Verify all fields are filled
         if (cc.isEmpty()) {
-            System.out.println("Please fill all the mandatory fields.");
-        } else {
-            try {
-                Connn c = new Connn();
-                String query = "INSERT INTO Signuptwo VALUES ('" + formno + "', '" + religion + "', '" + category
-                        + "', '" + income + "', '" + education + "', '" + occupation + "', '" + cc + "', '"
-                        + seniorCitizen + "', '" + existingAccount + "');";
-                c.statement.executeUpdate(query);
-                System.out.println("Details submitted successfully!");
-
-                // Proceed to next step
-                new Signup3(formno);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            System.out.println("Please fill the cc Number its mandatory");
+            return;
         }
+
+        // if (cc.isEmpty()) {
+        // System.out.println("Please fill all the mandatory fields.");
+        // } else {
+        try {
+            Connn c = new Connn();
+            String query = "INSERT INTO Signuptwo VALUES ('" + formno + "', '" + religion + "', '" + category
+                    + "', '" + income + "', '" + education + "', '" + occupation + "', '" + cc + "', '"
+                    + seniorCitizen + "', '" + existingAccount + "');";
+            c.statement.executeUpdate(query);
+            System.out.println("Details submitted successfully!");
+
+            Signup3 signup3 = new Signup3(formno);
+            signup3.start();
+            // new Signup3(formno);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        scanner.close();
+
     }
 
     private static String getReligion(Scanner scanner) {
@@ -203,6 +213,6 @@ public class Signup2 {
     }
 
     public static void main(String[] args) {
-        new Signup2("1234"); // Example form number
+        new Signup2("");
     }
 }

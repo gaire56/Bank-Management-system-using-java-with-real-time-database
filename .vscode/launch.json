@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Signup3CLI",
+            "request": "launch",
+            "mainClass": "Signup3CLI",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -81,8 +88,11 @@
             "type": "java",
             "name": "Launch Signup3",
             "request": "launch",
-            "mainClass": "Signup3",  // Make sure to use the correct class name here
-            "args": ["1234"],  // Provide the form number as an argument here
+            "mainClass": "Signup3",
+            "args": [],
+            "env": {
+                "FORM_NUMBER": "1234"
+            },
             "projectName": "Bank Management System_2ae31b62"
         },
         {
