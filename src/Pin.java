@@ -1,64 +1,63 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.Scanner;
 
 public class Pin {
-
-    String currentPin;
+    private String pin;
+    private Scanner scanner;
 
     public Pin(String pin) {
-        this.currentPin = pin;
+        this.pin = pin;
+        scanner = new Scanner(System.in);
         changePin();
     }
 
     private void changePin() {
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("====================================");
+        System.out.println("         CHANGE YOUR PIN            ");
+        System.out.println("====================================");
+
+        System.out.print("Enter New PIN: ");
+        String newPin = scanner.nextLine();
+
+        System.out.print("Re-Enter New PIN: ");
+        String confirmPin = scanner.nextLine();
+
+        if (newPin.isEmpty() || confirmPin.isEmpty()) {
+            System.out.println("Error: PIN fields cannot be empty.");
+            changePin(); // Retry if pin field empty
+        }
+
+        if (!newPin.equals(confirmPin)) {
+            System.out.println("Error: Entered PINs do not match.");
+            changePin(); // Retry if PINs don't match
+        } else {
+            updatePin(newPin);
+        }
+
+    }
+
+    private void updatePin(String newPin) {
         try {
-            System.out.println("********** Change PIN **********");
-            System.out.print("Enter New PIN: ");
-            String newPin = scanner.nextLine();
+            Connn c = new Connn();
 
-            System.out.print("Re-enter New PIN: ");
-            String confirmPin = scanner.nextLine();
+            // Update queries
+            String q1 = "UPDATE bank SET pin = '" + newPin + "' WHERE pin = '" + pin + "'";
+            String q2 = "UPDATE login SET pin = '" + newPin + "' WHERE pin = '" + pin + "'";
+            String q3 = "UPDATE signupthree SET pin = '" + newPin + "' WHERE pin = '" + pin + "'";
 
-            if (!newPin.equals(confirmPin)) {
-                System.out.println("Error: Entered PINs do not match. Please try again.");
-                return;
-            }
+            c.statement.executeUpdate(q1);
+            c.statement.executeUpdate(q2);
+            c.statement.executeUpdate(q3);
 
-            if (newPin.isEmpty() || confirmPin.isEmpty()) {
-                System.out.println("Error: PIN fields cannot be empty.");
-                return;
-            }
-
-            updatePinInDatabase(newPin);
-            System.out.println("PIN changed successfully.");
+            System.out.println("PIN changed successfully!");
+            new Main(newPin); // Redirect to the main menu
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            System.out.println("Exiting Change PIN process.");
-            scanner.close();
+            System.out.println("Error: Unable to update PIN. Please try again.");
         }
     }
 
-    private void updatePinInDatabase(String newPin) throws Exception {
-        Connn c = new Connn();
-        String q1 = "UPDATE bank SET pin = '" + newPin + "' WHERE pin = '" + currentPin + "'";
-        String q2 = "UPDATE login SET pin = '" + newPin + "' WHERE pin = '" + currentPin + "'";
-        String q3 = "UPDATE signupthree SET pin = '" + newPin + "' WHERE pin = '" + currentPin + "'";
-
-        c.statement.executeUpdate(q1);
-        c.statement.executeUpdate(q2);
-        c.statement.executeUpdate(q3);
-    }
-
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter Current PIN: ");
-        String currentPin = scanner.nextLine();
-
-        new Pin(currentPin);
+        new Pin("");
     }
 }

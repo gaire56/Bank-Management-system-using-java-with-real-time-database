@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "MiniStatement",
+            "request": "launch",
+            "mainClass": "MiniStatement",
+            "projectName": "Bank Management System_2ae31b62"
+        },
+        {
+            "type": "java",
             "name": "Signup3CLI",
             "request": "launch",
             "mainClass": "Signup3CLI",

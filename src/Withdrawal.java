@@ -75,16 +75,29 @@ public class Withdrawal {
 
         int choice = scanner.nextInt();
 
-        if (choice == 1) {
-            new Main(pin);
-        } else {
-            System.out.println("Thank you for using the ATM. Goodbye!");
+        switch (choice) {
+            case 1:
+                new Main(pin);
+                break;
+            case 2:
+                System.out.println("Thank you for using the Bank. See you!");
+                scanner.close();
+                System.exit(0);
+                break;
+            default:
+                System.out.println("Invalid choice. Please try again.");
         }
 
-        scanner.close();
+        // if (choice == 1) {
+        // new Main(pin);
+        // } else if(choice ==2 ) {
+        // System.out.println("Thank you for using the Bank. See you!");
+        // }
+
+        // scanner.close();
     }
 
     public static void main(String[] args) {
-        new Withdrawal("1234");
+        new Withdrawal("");
     }
 }

@@ -36,7 +36,7 @@ public class Main {
                     new FastCash(pin);
                     break;
                 case 4:
-                    new Mini(pin);
+                    new MiniStatement(pin);
                     break;
                 case 5:
                     new Pin(pin);
